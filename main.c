@@ -26,3 +26,27 @@ node *main_logs(node *);
 
 int count=0,R=3,vote=0;
 int vote1=0,vote2=0,vote3=0,vote4=0,vote5=0;
+int main()
+{
+	while(1){
+
+    system("cls");
+    printf("\n\n\n");
+    printf("\t            ****** WELCOME TO THE ONLINE VOTING PORTAL ******        \n\n");
+
+    printf("\t           ***************************************************        \n\n\n\n\n");
+    printf("        \t\t *****Please Enter One(1) for logging vote main Logs*****    \n\n\n");
+    int BB;
+
+    scanf("%d",&BB);
+    if(BB==1)
+    {
+      start=  main_logs(start);
+    }
+
+}
+    return 0;
+}
+// git remote add origin https://github.com/luciiifeer/Online-Voting-System-Data-Structure-Project.git
+// git branch -M main
+// git push -u origin main
