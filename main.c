@@ -24,9 +24,6 @@ node *main_logs(node *);
  	void show();
 
 
-int count=0,R=3,vote=0;
-int vote1=0,vote2=0,vote3=0,vote4=0,vote5=0;
-
 
 
 
