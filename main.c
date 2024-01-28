@@ -58,6 +58,50 @@ int determineleapyear(int year)
 	}
 }
 
+void calendar(int year, int daycode)
+{
+	int month, day;
+	for ( month = 1; month <= 12; month++ )
+	{
+		printf("%s", months[month]);
+		printf("\n\nSun  Mon  Tue  Wed  Thu  Fri  Sat\n" );
+
+		// Correct the position for the first date
+		for ( day = 1; day <= 1 + daycode * 5; day++ )
+		{
+			printf(" ");
+		}
+
+		// Print all the dates for one month
+		for ( day = 1; day <= days_in_month[month]; day++ )
+		{
+			printf("%2d", day );
+
+			// Is day before Sat? Else start next line Sun.
+			if ( ( day + daycode ) % 7 > 0 )
+				printf("   " );
+			else
+				printf("\n " );
+		}
+			// Set position for next month
+			daycode = ( daycode + days_in_month[month] ) % 7;
+	}
+}
+
+int main(void)
+{
+	int year, daycode, leapyear;
+
+	year = inputyear();
+	daycode = determinedaycode(year);
+	determineleapyear(year);
+	calendar(year, daycode);
+	printf("\n");
+
+
+}
+
+
 
 
 
