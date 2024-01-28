@@ -1,23 +1,35 @@
 <h1 align="center">
   Shakhawat Hossain Bijoy 
-  ID: 231071041 
-  Dept.: CSE
 </h1>
 <h2 align="center">
   ID: 231071041 
-  Dept.: CSE
 </h2>
 <h2 align="center">
   Dept.: CSE
 </h2>
 <h3 align="center">Project Name: Calendar Management System 
+</h3>
+<h3 align="center">
   Features: 
+</h3>
+<h3 align="center">
   . Presenting The Desire Year That You Input 
+</h3>
+<h3 align="center">
   . Presenting The Full Calendar Year 
+</h3>
+<h3 align="center">
   . Presenting Days Months 
+</h3>
+<h3 align="center">
   . Presenting The Holidays 
+</h3>
+<h3 align="center">
   . Search Date 
-  . Jump to The Months/Dates</h3>
+</h3>
+<h3 align="center">
+  . Jump to The Months/Dates
+</h3>
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
