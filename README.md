@@ -7,28 +7,28 @@
 <h2 align="center">
   Dept.: CSE
 </h2>
-<h3 align="center">Project Name: Calendar Management System 
+<h3 align="center">Project Name: Online Voting System Data Structure Project 
 </h3>
 <h3 align="left">
   Features: 
 </h3>
 <h3 align="left">
-  . Presenting The Desire Year That You Input 
+  . Presenting The Voting Interface 
 </h3>
 <h3 align="left">
-  . Presenting The Full Calendar Year 
+  . Vote Entry 
 </h3>
 <h3 align="left">
-  . Presenting Days Months 
+  . Admin Panel
 </h3>
 <h3 align="left">
-  . Presenting The Holidays 
+  . Winner Section
 </h3>
 <h3 align="left">
-  . Search Date 
+  . Achived Vote
 </h3>
 <h3 align="left">
-  . Jump to The Months/Dates
+  . Password Encrypted Admin Panel
 </h3>
 
 <h3 align="center">Connect with me:</h3>
