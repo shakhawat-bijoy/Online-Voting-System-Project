@@ -19,6 +19,9 @@
   . Vote Entry 
 </h3>
 <h3 align="left">
+  . Voter-List
+</h3>
+<h3 align="left">
   . Admin Panel
 </h3>
 <h3 align="left">
@@ -29,6 +32,9 @@
 </h3>
 <h3 align="left">
   . Password Encrypted Admin Panel
+</h3>
+<h3 align="left">
+  . Password Encrypted Voter-List
 </h3>
 
 <h3 align="center">Connect with me:</h3>
