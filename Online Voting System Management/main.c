@@ -279,7 +279,6 @@ void voterlist()
 
   void show()
   {
-  	int G;
       system("cls");
 
       printf("\n\n\n\n");
@@ -305,6 +304,7 @@ void voterlist()
 
    void winner()
    {
+	int G;
        system("cls");
        printf("\n\n\n\n");
        if(vote2<vote1 && vote3< vote1 && vote4<vote1 && vote5<vote1)
