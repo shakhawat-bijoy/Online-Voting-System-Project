@@ -295,14 +295,11 @@ void voterlist()
       Sleep(500);
       printf("\t\t\t  Sabrina Mannan  is on             %d Votes\n\n\n\n",vote5);
       Sleep(500);
+	  
+        printf("\t\t\t\tEnter Any Key for Main Log\n\n");
+        getch();
+        main_logs(start);
 
-
-      printf("\t\t\t\t\tEnter Any Key For Main Logs\n\n\t\t\t\t\t\t\tOR\n\n\t\t\t\t\tENTER THE SPECIAL PASSWORD TO CLOSING VOTING PORTAL\n ");
-    scanf("%d",&G);
-    if(G==1234)
-    exi();
-    else
-    main_logs(start);
 
   }
 
@@ -325,9 +322,12 @@ void voterlist()
         if(vote1<vote5 && vote2< vote5 && vote3<vote5 && vote4<vote5)
         printf("\t\t\tThe present Winner is Sabrina Mannan and she has got %d votes\n\n\n\n",vote5);
 
-        printf("\t\t\t\tEnter Any Key for Main Log\n\n");
-        getch();
-        main_logs(start);
+    printf("\t\t\t\t\tEnter Any Key For Main Logs\n\n\t\t\t\t\t\t\tOR\n\n\t\t\t\t\tENTER THE SPECIAL PASSWORD TO CLOSING VOTING PORTAL\n ");
+    scanf("%d",&G);
+    if(G==1234)
+    exi();
+    else
+    main_logs(start);
 
    }
 
