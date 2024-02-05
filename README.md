@@ -7,7 +7,7 @@
 <h2 align="center">
   Dept.: CSE
 </h2>
-<h3 align="center">Project Name: Electronic Voting System Data Structure Project 
+<h3 align="center">Project Name: Electronic Voting System  
 </h3>
 <h3 align="left">
   Features: 
