@@ -1,40 +1,4 @@
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  h1, h2, h3 {
-    color: #2c3e50;
-  }
-  .container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  .feature-list {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  .feature-list li:before {
-    content: "• ";
-    color: #3498db;
-    font-weight: bold;
-  }
-  .social-links a {
-    text-decoration: none;
-    color: #3498db;
-    margin-right: 10px;
-  }
-  .social-links img {
-    vertical-align: middle;
-  }
-</style>
+
 
 <div class="container">
   <h1 align="center">Shakhawat Hossain Bijoy</h1>
