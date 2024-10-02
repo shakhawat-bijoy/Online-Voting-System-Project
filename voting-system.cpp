@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
-#include <limits> // Include the header for numeric_limits
+#include <limits>
 #include <conio.h>
-#include <cstdlib> //Include the header for System
-
+#include <cstdlib>
+#include <fstream>
+#include <sstream> // Include for string stream
+#include <iomanip> // Include for date formatting
 
 using namespace std;
 
@@ -14,55 +16,77 @@ struct Voter {
     string birth_date;
 };
 
+// Structure for candidate information
+struct Candidate {
+    string id;
+    string name;
+};
+
 // Global variables to hold vote counts
-int votes_candidate1 = 0;
-int votes_candidate2 = 0;
+int votes[100];
+Candidate candidates[100];
+int numCandidates = 0;
+
+// Global variables for voters
+Voter voters[100];
+int numVoters = 0;
 
 // Function prototypes
 void registerVoter();
+void registerCandidate();
 void vote();
 void viewWinner();
 void adminPanel();
 void viewVoters();
 void viewVotes();
-
-// Array to store registered voters (simulated data)
-const int MAX_VOTERS = 100;
-Voter voters[MAX_VOTERS];
-int numVoters = 0;
+void viewCandidates();
+void loadVotersFromFile();
+void saveVotersToFile();
+void loadCandidatesFromFile();
+void saveCandidatesToFile();
+bool isValidDate(const string &date);
 
 int main() {
+    // Load voters and candidates from file at the start
+    loadVotersFromFile();
+    loadCandidatesFromFile();
+
     int choice;
 
     while (true) {
-        system("cls");
         cout << "\n\n\n";
         cout << "\t****** WELCOME TO THE ONLINE VOTING SYSTEM ******\n\n";
         cout << "\t*************************************************\n\n\n";
         cout << "\t1. Register Voter\n";
-        cout << "\t2. Vote\n";
-        cout << "\t3. View Winner\n";
-        cout << "\t4. Admin Panel\n";
-        cout << "\t5. Exit\n\n";
+        cout << "\t2. Register Candidate\n";
+        cout << "\t3. Vote\n";
+        cout << "\t4. View Winner\n";
+        cout << "\t5. Admin Panel\n";
+        cout << "\t6. Exit\n\n";
         cout << "\tEnter your choice: ";
         cin >> choice;
-         cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear buffer
 
         switch (choice) {
             case 1:
                 registerVoter();
                 break;
             case 2:
-                vote();
+                registerCandidate();
                 break;
             case 3:
-                viewWinner();
+                vote();
                 break;
             case 4:
-                adminPanel();
+                viewWinner();
                 break;
             case 5:
+                adminPanel();
+                break;
+            case 6:
+                saveVotersToFile();
+                saveCandidatesToFile();
                 cout << "\n\tThank you for using the Voting System.\n";
                 return 0;
             default:
@@ -71,32 +95,115 @@ int main() {
         }
 
         cout << "\n\tPress any key to continue...";
-        _getch(); // Wait for user input
+        _getch();
     }
 
     return 0;
 }
 
+// Function to load voters from file
+void loadVotersFromFile() {
+    ifstream file("voters.txt");
+    if (file.is_open()) {
+        while (file >> voters[numVoters].nid >> voters[numVoters].name >> voters[numVoters].birth_date) {
+            numVoters++;
+        }
+        file.close();
+    }
+}
+
+// Function to save voters to file
+void saveVotersToFile() {
+    ofstream file("voters.txt");
+    if (file.is_open()) {
+        for (int i = 0; i < numVoters; i++) {
+            file << voters[i].nid << " " << voters[i].name << " " << voters[i].birth_date << endl;
+        }
+        file.close();
+    }
+}
+
+// Function to load candidates from file
+void loadCandidatesFromFile() {
+    ifstream file("candidates.txt");
+    if (file.is_open()) {
+        while (file >> candidates[numCandidates].id >> candidates[numCandidates].name) {
+            numCandidates++;
+        }
+        file.close();
+    }
+}
+
+// Function to save candidates to file
+void saveCandidatesToFile() {
+    ofstream file("candidates.txt");
+    if (file.is_open()) {
+        for (int i = 0; i < numCandidates; i++) {
+            file << candidates[i].id << " " << candidates[i].name << endl;
+        }
+        file.close();
+    }
+}
+
+// Function to check if the date is valid
+bool isValidDate(const string &date) {
+    if (date.size() != 10 || date[2] != '-' || date[5] != '-') {
+        return false;
+    }
+
+    int day, month, year;
+    stringstream ss(date);
+    ss >> setw(2) >> day;
+    ss.ignore();
+    ss >> setw(2) >> month;
+    ss.ignore();
+    ss >> setw(4) >> year;
+
+    if (month < 1 || month > 12 || year < 1900 || year > 2024) {
+        return false;
+    }
+
+    int daysInMonth[] = { 31, 28 + (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    if (day < 1 || day > daysInMonth[month - 1]) {
+        return false;
+    }
+
+    return true;
+}
+
 // Function to register a new voter
 void registerVoter() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** REGISTER VOTER ******\n\n";
 
     Voter voter;
 
     cout << "\tEnter NID: ";
-    cin.ignore();
     getline(cin, voter.nid);
 
     cout << "\tEnter Name: ";
     getline(cin, voter.name);
 
-    cout << "\tEnter Birth Date (dd-mm-yyyy): ";
-    getline(cin, voter.birth_date);
+    int invalidCount = 0;
 
-    // Store voter information in array (simulating database or file storage)
-    if (numVoters < MAX_VOTERS) {
+    while (invalidCount < 5) {
+        cout << "\tEnter Birth Date (dd-mm-yyyy): ";
+        getline(cin, voter.birth_date);
+
+        if (isValidDate(voter.birth_date)) {
+            break;
+        } else {
+            invalidCount++;
+            cout << "\tInvalid date format or date does not exist. Please try again.\n";
+            if (invalidCount == 5) {
+                cout << "\n\tToo many invalid attempts. Returning to the main menu.\n";
+                return;
+            }
+        }
+    }
+
+    if (numVoters < 100) {
         voters[numVoters++] = voter;
         cout << "\n\tVoter registered successfully!\n";
     } else {
@@ -104,9 +211,30 @@ void registerVoter() {
     }
 }
 
+// Function to register a new candidate
+void registerCandidate() {
+    cout << "\n\n\n";
+    cout << "\t****** REGISTER CANDIDATE ******\n\n";
+
+    Candidate candidate;
+
+    cout << "\tEnter Candidate ID: ";
+    getline(cin, candidate.id);
+
+    cout << "\tEnter Candidate Name: ";
+    getline(cin, candidate.name);
+
+    if (numCandidates < 100) {
+        candidates[numCandidates++] = candidate;
+        votes[numCandidates - 1] = 0;
+        cout << "\n\tCandidate registered successfully!\n";
+    } else {
+        cout << "\n\tMaximum number of candidates reached!\n";
+    }
+}
+
 // Function to allow voter to vote
 void vote() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** VOTE ******\n\n";
 
@@ -115,7 +243,6 @@ void vote() {
     string birth_date;
 
     cout << "\tEnter NID: ";
-    cin.ignore();
     getline(cin, nid);
 
     cout << "\tEnter Name: ";
@@ -124,7 +251,6 @@ void vote() {
     cout << "\tEnter Birth Date (dd-mm-yyyy): ";
     getline(cin, birth_date);
 
-    // Check if the voter is registered
     bool registered = false;
     for (int i = 0; i < numVoters; i++) {
         if (voters[i].nid == nid && voters[i].name == name && voters[i].birth_date == birth_date) {
@@ -134,78 +260,87 @@ void vote() {
     }
 
     if (registered) {
-        cout << "\n\tYou are eligible to vote.\n";
+        cout << "\n\tYou are eligible to vote.\n"<<endl;
         cout << "\tSelect a candidate to vote for:\n";
-        cout << "\t1. Candidate 1\n";
-        cout << "\t2. Candidate 2\n";
+        for (int i = 0; i < numCandidates; i++) {
+            cout << "\t" << candidates[i].id << ". " << candidates[i].name << "\n";
+        }
         cout << "\tEnter your choice: ";
 
         int choice;
         cin >> choice;
 
-        switch (choice) {
-            case 1:
-                votes_candidate1++;
-                cout << "\n\tYou voted for Candidate 1.\n";
-                break;
-            case 2:
-                votes_candidate2++;
-                cout << "\n\tYou voted for Candidate 2.\n";
-                break;
-            default:
-                cout << "\n\tInvalid choice!\n";
-                break;
+        if (choice > 0 && choice <= numCandidates) {
+            votes[choice - 1]++;
+            cout << "\n\tVote cast successfully!\n";
+        } else {
+            cout << "\n\tInvalid choice! Vote not cast.\n";
         }
     } else {
         cout << "\n\tYou are not registered as a voter.\n";
     }
 }
 
-
 // Function to view the winner
 void viewWinner() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** VIEW WINNER ******\n\n";
 
-    if (votes_candidate1 > votes_candidate2) {
-        cout << "\tCandidate 1 is the winner with " << votes_candidate1 << " votes!\n";
-    } else if (votes_candidate2 > votes_candidate1) {
-        cout << "\tCandidate 2 is the winner with " << votes_candidate2 << " votes!\n";
-    } else {
-        cout << "\tIt's a tie!\n";
+    int winnerIndex = 0;
+    int maxVotes = votes[0];
+
+    for (int i = 1; i < numCandidates; i++) {
+        if (votes[i] > maxVotes) {
+            maxVotes = votes[i];
+            winnerIndex = i;
+        }
     }
+
+    cout << "\tWinner is " << candidates[winnerIndex].name << " with " << maxVotes << " votes!\n";
 }
 
 // Function to display admin panel
 void adminPanel() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** ADMIN PANEL ******\n\n";
     cout << "\tEnter admin password: ";
 
     string password;
-    cin >> password;
+    char ch;
+    password.clear();
+
+    // Hiding password input
+while (true) {
+    ch = _getch();
+    if (ch == '\r') break;
+    if (ch == '\b') {
+        if (!password.empty()) {
+            password.resize(password.size() - 1);
+            cout << "\b \b";
+        }
+    } else {
+        password += ch;
+        cout << '*';
+    }
+}
+    cout << endl;
 
     if (password == "admin123") {
         int choice;
         do {
-            // Clear any previous error flags and flush the input buffer
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << "\n\n";
             cout << "\t1. View Voters\n";
-
-            cout << "\t2. View Votes\n";
-
-            cout << "\t3. Back to Main Menu\n";
+            cout << "\t2. View Candidates\n";
+            cout << "\t3. View Votes\n";
+            cout << "\t4. Back to Main Menu\n";
             cout << "\n\n";
             cout << "\tEnter your choice: ";
 
-            // Check if the input is a number
             if (!(cin >> choice)) {
                 cout << "\n\tInvalid input! Please enter a number.\n";
-                choice = 0; // Reset choice to handle invalid input
+                choice = 0;
             }
 
             switch (choice) {
@@ -213,16 +348,18 @@ void adminPanel() {
                     viewVoters();
                     break;
                 case 2:
-                    viewVotes();
-
+                    viewCandidates();
                     break;
                 case 3:
-                    return; // Exit admin panel and return to main menu
+                    viewVotes();
+                    break;
+                case 4:
+                    return;
                 default:
                     cout << "\n\tInvalid choice!\n";
                     break;
             }
-        } while (true); // Loop until user selects to go back to main menu
+        } while (true);
     } else {
         cout << "\n\tIncorrect password! Access denied.\n";
     }
@@ -230,7 +367,6 @@ void adminPanel() {
 
 // Function to view registered voters
 void viewVoters() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** VIEW VOTERS ******\n\n";
 
@@ -245,12 +381,28 @@ void viewVoters() {
     }
 }
 
+// Function to view candidates
+void viewCandidates() {
+    cout << "\n\n\n";
+    cout << "\t****** VIEW CANDIDATES ******\n\n";
+
+    if (numCandidates == 0) {
+        cout << "\tNo candidates to display.\n";
+    } else {
+        cout << "\tRegistered Candidates:\n";
+        cout << "\t---------------------\n";
+        for (int i = 0; i < numCandidates; ++i) {
+            cout << "\tID: " << candidates[i].id << ", Name: " << candidates[i].name << endl;
+        }
+    }
+}
+
 // Function to view voting results
 void viewVotes() {
-    system("cls");
     cout << "\n\n\n";
     cout << "\t****** VIEW VOTES ******\n\n";
 
-    cout << "\tCandidate 1 received " << votes_candidate1 << " votes.\n";
-    cout << "\tCandidate 2 received " << votes_candidate2 << " votes.\n";
+    for (int i = 0; i < numCandidates; i++) {
+        cout << "\t" << candidates[i].name << " received " << votes[i] << " votes.\n";
+    }
 }
