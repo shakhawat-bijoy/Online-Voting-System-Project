@@ -25,6 +25,7 @@ This C++ program implements a simple online voting system with functionalities f
 ## Features
 
 - **Register Voter**: Allows users to register as voters by providing their NID, name, and birth date.
+- **Register Candidate**: Allows users to register candidates for vote.
 - **Vote**: Allows registered voters to cast their vote for one of the two candidates.
 - **View Winner**: Displays the current winner based on the vote counts.
 - **Admin Panel**: Allows the admin to view registered voters and vote counts, protected by a password.
@@ -34,16 +35,18 @@ This C++ program implements a simple online voting system with functionalities f
 ### Main Menu Options
 
 1. **Register Voter**: Register a new voter by entering NID, name, and birth date.
-2. **Vote**: Cast a vote by providing NID, name, and birth date to verify voter registration.
-3. **View Winner**: View the candidate with the most votes or if there is a tie.
-4. **Admin Panel**: Access the admin panel to view registered voters and vote counts (password protected).
-5. **Exit**: Exit the voting system.
+2. **Register Candidate**: Register new candidates for vote.
+3. **Vote**: Cast a vote by providing NID, name, and birth date to verify voter registration.
+4. **View Winner**: View the candidate with the most votes or if there is a tie.
+5. **Admin Panel**: Access the admin panel to view registered voters and vote counts (password protected).
+6. **Exit**: Exit the voting system.
 
 ### Admin Panel Options
 
 1. **View Voters**: Display a list of all registered voters.
-2. **View Votes**: Display the vote counts for each candidate.
-3. **Back to Main Menu**: Return to the main menu.
+2. **View Candidates**: Display a list of all registered candidates.
+3. **View Votes**: Display the vote counts for each candidate.
+4. **Back to Main Menu**: Return to the main menu.
 
 ## Functions
 
@@ -52,6 +55,13 @@ This C++ program implements a simple online voting system with functionalities f
 - Prompts the user to enter NID, name, and birth date.
 - Adds the voter to the list if the maximum number of voters is not reached.
 - Displays a message indicating successful registration or if the maximum number of voters is reached.
+
+### `registerVoter()`
+
+- Prompts the user to enter candidates.
+- Adds the candidates to the list if the maximum number of voters is not reached.
+- Displays a message indicating successful registration or if the maximum number of candidates is reached.
+
 
 ### `vote()`
 
