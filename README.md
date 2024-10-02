@@ -56,7 +56,7 @@ This C++ program implements a simple online voting system with functionalities f
 - Adds the voter to the list if the maximum number of voters is not reached.
 - Displays a message indicating successful registration or if the maximum number of voters is reached.
 
-### `registerVoter()`
+### `registerCandidates()`
 
 - Prompts the user to enter candidates.
 - Adds the candidates to the list if the maximum number of voters is not reached.
